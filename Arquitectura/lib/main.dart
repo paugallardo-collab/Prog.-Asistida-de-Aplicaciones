@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'data/repositories/usuario_memoria.dart';
-import 'domain/usecases/obtener_usuarios_con_vocal.dart';
+import 'data/repositories/usuario_api.dart';
+import 'domain/usecases/obtener_usuarios.dart';
 import 'presentation/pages/pantalla_usuarios.dart';
 
 void main() {
-  final repository = UsuarioMemoria();
-  final obtenerUsuarios = ObtenerUsuariosConVocal(repository);
+  final repository = UsuarioApi();
+  final obtenerUsuarios = ObtenerUsuarios(repository);
 
   runApp(
     MaterialApp(

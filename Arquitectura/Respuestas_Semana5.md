@@ -1,6 +1,8 @@
 ﻿# Arquitectura de usuarios — Semana 5
 
-Proyecto Flutter sencillo basado en la actividad y en la clase de POO, SOLID y arquitectura limpia. La versión final utiliza memoria para funcionar sin conexión. No necesita Provider, BLoC ni paquetes de inyección.
+> **Actualización posterior:** a petición del usuario, la aplicación actual usa `UsuarioApi` y un `TextField` para buscar por nombre. Sin texto muestra todos los usuarios; al escribir filtra coincidencias en cualquier parte del nombre, sin distinguir mayúsculas. El nuevo caso de uso es `domain/usecases/obtener_usuarios.dart`. Las respuestas siguientes documentan la actividad original con filtro de vocales y sustitución por memoria, guardada en el commit `828b8ca`.
+
+Proyecto Flutter sencillo basado en la actividad y en la clase de POO, SOLID y arquitectura limpia. La versión final de la actividad original utiliza memoria para funcionar sin conexión. No necesita Provider, BLoC ni paquetes de inyección.
 
 ## Cómo ejecutar
 

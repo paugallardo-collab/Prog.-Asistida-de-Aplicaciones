@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 import '../../domain/entities/usuario.dart';
-import '../../domain/usecases/obtener_usuarios_con_vocal.dart';
+import '../../domain/usecases/obtener_usuarios.dart';
 
 class PantallaUsuarios extends StatefulWidget {
-  final ObtenerUsuariosConVocal obtenerUsuarios;
+  final ObtenerUsuarios obtenerUsuarios;
 
   const PantallaUsuarios({super.key, required this.obtenerUsuarios});
 
@@ -14,6 +14,7 @@ class PantallaUsuarios extends StatefulWidget {
 
 class _PantallaUsuariosState extends State<PantallaUsuarios> {
   late Future<List<Usuario>> _usuarios;
+  String _busqueda = '';
 
   @override
   void initState() {
@@ -31,7 +32,7 @@ class _PantallaUsuariosState extends State<PantallaUsuarios> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Usuarios con vocal'),
+        title: const Text('Usuarios de la API'),
         actions: [
           IconButton(
             onPressed: _recargar,
@@ -40,42 +41,69 @@ class _PantallaUsuariosState extends State<PantallaUsuarios> {
           ),
         ],
       ),
-      body: FutureBuilder<List<Usuario>>(
-        future: _usuarios,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (snapshot.hasError) {
-            return Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Text('No se pudieron cargar los usuarios'),
-                  TextButton(
-                    onPressed: _recargar,
-                    child: const Text('Reintentar'),
-                  ),
-                ],
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: TextField(
+              decoration: const InputDecoration(
+                labelText: 'Buscar por nombre',
+                hintText: 'Escribe letras o un nombre',
+                prefixIcon: Icon(Icons.search),
+                border: OutlineInputBorder(),
               ),
-            );
-          }
-          final usuarios = snapshot.data ?? [];
-          if (usuarios.isEmpty) {
-            return const Center(child: Text('No hay nombres con vocal'));
-          }
-          return ListView.builder(
-            itemCount: usuarios.length,
-            itemBuilder: (context, index) {
-              final usuario = usuarios[index];
-              return ListTile(
-                leading: CircleAvatar(child: Text('${usuario.id}')),
-                title: Text(usuario.nombre),
-                subtitle: Text(usuario.email),
-              );
-            },
-          );
-        },
+              onChanged: (texto) {
+                setState(() {
+                  _busqueda = texto;
+                });
+              },
+            ),
+          ),
+          Expanded(
+            child: FutureBuilder<List<Usuario>>(
+              future: _usuarios,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (snapshot.hasError) {
+                  return Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Text('No se pudieron cargar los usuarios'),
+                        TextButton(
+                          onPressed: _recargar,
+                          child: const Text('Reintentar'),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+                final usuarios = widget.obtenerUsuarios.filtrar(
+                  snapshot.data ?? [],
+                  _busqueda,
+                );
+                if (usuarios.isEmpty) {
+                  return const Center(
+                    child: Text('No se encontraron usuarios'),
+                  );
+                }
+                return ListView.builder(
+                  itemCount: usuarios.length,
+                  itemBuilder: (context, index) {
+                    final usuario = usuarios[index];
+                    return ListTile(
+                      leading: CircleAvatar(child: Text('${usuario.id}')),
+                      title: Text(usuario.nombre),
+                      subtitle: Text(usuario.email),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
