@@ -7,19 +7,18 @@
 - La traza anterior es una prueba cliente-servidor sin LLM. No se presenta como captura del Inspector ni como traza de un agente conectado.
 - `parte1_server.png`: captura original aportada por la estudiante con las tres herramientas del servidor.
 - `pytest.png`: captura original de la ejecución en el equipo de la estudiante, con 25 pruebas aprobadas y una advertencia.
-- `inspector_conectado.png`: captura original con estado Connected y nombre MCP Detective; todavía no muestra discovery ni las pruebas D1–D7.
 - `inspector_tools.png`: captura original del Inspector conectado, con discovery de exactamente las tres herramientas y la llamada `tools/list` en el historial.
 - `inspector_pruebas.png`: primera captura de resultados del Inspector (D1); muestra INC-001, INC-002 e INC-003 con cantidades 2, 6 y 5.
 - `inspector_d2_1.png` a `inspector_d2_4.png`: capturas originales de D2 con los seis eventos de INC-002, de 02:10 a 02:15, usuario admin, IP de documentación 203.0.113.25 y LOGIN_FAILED.
-- `inspector_extra_caso_inexistente_alerta.png`: rechazo de INC-999 al usar `registrar_alerta`. Es una validación adicional; D3 sigue pendiente porque exige `consultar_eventos("INC-999")`.
+- `inspector_d3.png`: captura de D3 con `consultar_eventos`, argumento INC-999 y error explícito de caso inexistente.
 
 ## Capturas pendientes
 
-Las capturas recibidas se conservaron sin modificar. D1 y D2 ya tienen capturas; faltan los demás resultados del Inspector y la evidencia del agente antes de entregar:
+Las capturas incluidas se conservaron sin modificar y corresponden a las comprobaciones solicitadas. D1, D2 y D3 ya tienen capturas; faltan los demás resultados del Inspector y la evidencia del agente antes de entregar:
 
 | Archivo obligatorio | Qué debe verse |
 |---|---|
-| Capturas adicionales del Inspector | Completar los resultados D3–D7, incluidos el duplicado, las validaciones y el registro tras reiniciar. D1 está en `inspector_pruebas.png` y D2 en `inspector_d2_1.png` a `inspector_d2_4.png`. |
+| Resultados pendientes del Inspector | Completar D4–D7 y el registro tras reiniciar. D1 está en `inspector_pruebas.png`, D2 en `inspector_d2_1.png` a `inspector_d2_4.png` y D3 en `inspector_d3.png`. |
 | `agente_tools.png` | Conversación nueva del agente mostrando llamadas MCP reales, argumentos y resultados. Incluir consultas de los tres casos, registro de INC-003 y error de INC-999; añadir imágenes si hace falta. |
 
 No mostrar tokens de sesión del Inspector, contraseñas ni otras credenciales. El enunciado no solicita grabaciones.
