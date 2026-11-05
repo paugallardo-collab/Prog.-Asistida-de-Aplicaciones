@@ -15,14 +15,14 @@
 - `inspector_d5.png`: captura de D5 al repetir el registro anterior sin reiniciar, con error explícito de alerta duplicada para INC-003.
 - `inspector_d6.png`: captura de D6 con INC-002, nivel critico y motivo Intentos repetidos; el servidor rechaza el nivel y enumera bajo, medio o alto.
 - `inspector_d7.png`: captura de D7 con INC-002, nivel medio y motivo en blanco; el servidor rechaza el motivo con un mensaje explícito.
+- `inspector_reinicio.png`: captura de la Parte 2c, después de detener y volver a iniciar el servidor siguiendo las instrucciones; INC-003 vuelve a aceptar el mismo registro válido, con estado registrada.
 
 ## Capturas pendientes
 
-Las capturas incluidas se conservaron sin modificar y corresponden a las comprobaciones solicitadas. D1–D7 ya tienen capturas; faltan la comprobación visual del reinicio y la evidencia del agente antes de entregar:
+Las capturas incluidas se conservaron sin modificar y corresponden a las comprobaciones solicitadas. D1–D7 y el reinicio (2c) ya tienen capturas; falta la evidencia del agente antes de entregar:
 
 | Archivo obligatorio | Qué debe verse |
 |---|---|
-| Reinicio del servidor (2c) | Repetir el registro válido de INC-003 tras terminar y volver a iniciar el servidor; debe aceptarse. D1 está en `inspector_pruebas.png`, D2 en `inspector_d2_1.png` a `inspector_d2_4.png` y D3–D7 en `inspector_d3.png` a `inspector_d7.png`. |
 | `agente_tools.png` | Conversación nueva del agente mostrando llamadas MCP reales, argumentos y resultados. Incluir consultas de los tres casos, registro de INC-003 y error de INC-999; añadir imágenes si hace falta. |
 
 No mostrar tokens de sesión del Inspector, contraseñas ni otras credenciales. El enunciado no solicita grabaciones.
