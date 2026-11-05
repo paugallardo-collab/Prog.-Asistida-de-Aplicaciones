@@ -5,17 +5,18 @@
 - `pytest.txt`: salida real de pytest, con 25 pruebas aprobadas.
 - `mcp_stdio.json`: discovery y respuestas reales del servidor mediante el cliente MCP del SDK. Comprueba D1–D7, caso inexistente al registrar, tipo inválido y registro tras reiniciar el proceso.
 - La traza anterior es una prueba cliente-servidor sin LLM. No se presenta como captura del Inspector ni como traza de un agente conectado.
+- `parte1_server.png`: captura original aportada por la estudiante con las tres herramientas del servidor.
+- `pytest.png`: captura original de la ejecución en el equipo de la estudiante, con 25 pruebas aprobadas y una advertencia.
+- `inspector_conectado.png`: captura original con estado Connected y nombre MCP Detective; todavía no muestra discovery ni las pruebas D1–D7.
 
 ## Capturas pendientes
 
-La automatización pudo abrir el Inspector, pero la captura de la ventana devolvió otra aplicación y no fue posible completar su interacción de forma fiable. No se generaron imágenes simuladas. Las siguientes cinco capturas deben obtenerse antes de entregar:
+Las capturas recibidas se conservaron sin modificar. Faltan las siguientes tres evidencias obligatorias antes de entregar:
 
 | Archivo obligatorio | Qué debe verse |
 |---|---|
-| `parte1_server.png` | Código real de `server.py` con los tres `@mcp.tool()`, firmas y docstrings. |
 | `inspector_tools.png` | Inspector conectado, con las tres herramientas descubiertas. |
 | `inspector_pruebas.png` | Resultados reales D1–D7, incluidos el duplicado y las validaciones. Usar capturas adicionales si no caben legiblemente en una. |
-| `pytest.png` | Terminal después de ejecutar pytest; deben verse las pruebas aprobadas. |
 | `agente_tools.png` | Conversación nueva del agente mostrando llamadas MCP reales, argumentos y resultados. Incluir consultas de los tres casos, registro de INC-003 y error de INC-999; añadir imágenes si hace falta. |
 
 No mostrar tokens de sesión del Inspector, contraseñas ni otras credenciales. El enunciado no solicita grabaciones.

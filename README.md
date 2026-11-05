@@ -58,6 +58,6 @@ Durante esa investigación no se debe abrir ni buscar `casos.json`, tampoco leer
 
 ## Entrega
 
-[respuestas.md](respuestas.md) contiene la reflexión. [evidencias/README.md](evidencias/README.md) distingue las verificaciones realizadas de las cinco capturas pendientes y explica cómo completarlas. No se exige una grabación de pantalla en el enunciado.
+[respuestas.md](respuestas.md) contiene la reflexión. [evidencias/README.md](evidencias/README.md) distingue las verificaciones y capturas realizadas de las evidencias pendientes y explica cómo completarlas. No se exige una grabación de pantalla en el enunciado.
 
 La rama de entrega es `deber5`, con pull request hacia `main`. En el aula virtual se entrega únicamente el enlace al PR. Completar las capturas y la sesión nueva antes de enviarlo al aula.
