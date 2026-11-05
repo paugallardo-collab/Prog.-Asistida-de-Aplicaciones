@@ -8,14 +8,14 @@
 - `parte1_server.png`: captura original aportada por la estudiante con las tres herramientas del servidor.
 - `pytest.png`: captura original de la ejecución en el equipo de la estudiante, con 25 pruebas aprobadas y una advertencia.
 - `inspector_conectado.png`: captura original con estado Connected y nombre MCP Detective; todavía no muestra discovery ni las pruebas D1–D7.
+- `inspector_tools.png`: captura original del Inspector conectado, con discovery de exactamente las tres herramientas y la llamada `tools/list` en el historial.
 
 ## Capturas pendientes
 
-Las capturas recibidas se conservaron sin modificar. Faltan las siguientes tres evidencias obligatorias antes de entregar:
+Las capturas recibidas se conservaron sin modificar. Faltan las siguientes dos evidencias obligatorias antes de entregar:
 
 | Archivo obligatorio | Qué debe verse |
 |---|---|
-| `inspector_tools.png` | Inspector conectado, con las tres herramientas descubiertas. |
 | `inspector_pruebas.png` | Resultados reales D1–D7, incluidos el duplicado y las validaciones. Usar capturas adicionales si no caben legiblemente en una. |
 | `agente_tools.png` | Conversación nueva del agente mostrando llamadas MCP reales, argumentos y resultados. Incluir consultas de los tres casos, registro de INC-003 y error de INC-999; añadir imágenes si hace falta. |
 
