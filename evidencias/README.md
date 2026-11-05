@@ -11,6 +11,7 @@
 - `inspector_tools.png`: captura original del Inspector conectado, con discovery de exactamente las tres herramientas y la llamada `tools/list` en el historial.
 - `inspector_pruebas.png`: primera captura de resultados del Inspector (D1); muestra INC-001, INC-002 e INC-003 con cantidades 2, 6 y 5.
 - `inspector_d2_1.png` a `inspector_d2_4.png`: capturas originales de D2 con los seis eventos de INC-002, de 02:10 a 02:15, usuario admin, IP de documentación 203.0.113.25 y LOGIN_FAILED.
+- `inspector_extra_caso_inexistente_alerta.png`: rechazo de INC-999 al usar `registrar_alerta`. Es una validación adicional; D3 sigue pendiente porque exige `consultar_eventos("INC-999")`.
 
 ## Capturas pendientes
 
