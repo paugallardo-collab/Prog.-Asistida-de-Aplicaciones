@@ -1,5 +1,8 @@
 """Pruebas del contrato, con una instancia aislada por prueba."""
 
+import sys
+from pathlib import Path
+
 import pytest
 
 from server import Detective
@@ -89,6 +92,7 @@ def test_respuesta_no_permite_eludir_duplicado(detective):
         detective.registrar("INC-003", "alto", "Revisar")
 
 
-def test_carga_desde_otro_directorio(tmp_path, monkeypatch):
-    monkeypatch.chdir(tmp_path)
+def test_carga_desde_otro_directorio(monkeypatch):
+    # Un directorio existente permite probar __file__ sin crear temporales de Windows.
+    monkeypatch.chdir(Path(sys.executable).resolve().parent)
     assert len(Detective().listar()) == 3
