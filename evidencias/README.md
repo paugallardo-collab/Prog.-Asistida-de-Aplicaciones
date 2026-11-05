@@ -16,14 +16,15 @@
 - `inspector_d6.png`: captura de D6 con INC-002, nivel critico y motivo Intentos repetidos; el servidor rechaza el nivel y enumera bajo, medio o alto.
 - `inspector_d7.png`: captura de D7 con INC-002, nivel medio y motivo en blanco; el servidor rechaza el motivo con un mensaje explícito.
 - `inspector_reinicio.png`: captura de la Parte 2c, después de detener y volver a iniciar el servidor siguiendo las instrucciones; INC-003 vuelve a aceptar el mismo registro válido, con estado registrada.
+- `agente_tools.png`, `agente_listar_2.png` y `agente_listar_3.png`: capturas originales de la conversación nueva de Codex «Investiga casos con MCP Detective», con la llamada real Listar casos expandida y los resultados de los tres casos. No se incluyó la captura que repetía el resultado en formato JSON.
 
 ## Capturas pendientes
 
-Las capturas incluidas se conservaron sin modificar y corresponden a las comprobaciones solicitadas. D1–D7 y el reinicio (2c) ya tienen capturas; falta la evidencia del agente antes de entregar:
+Las capturas incluidas se conservaron sin modificar y corresponden a las comprobaciones solicitadas. D1–D7 y el reinicio (2c) ya tienen capturas. La evidencia del agente está iniciada con el listado de casos; falta completar las demás llamadas antes de entregar:
 
 | Archivo obligatorio | Qué debe verse |
 |---|---|
-| `agente_tools.png` | Conversación nueva del agente mostrando llamadas MCP reales, argumentos y resultados. Incluir consultas de los tres casos, registro de INC-003 y error de INC-999; añadir imágenes si hace falta. |
+| Llamadas pendientes del agente | Capturas de `consultar_eventos` para los tres casos, `registrar_alerta` para INC-003 y `consultar_eventos` para INC-999, con argumentos y resultados visibles. El listado ya está en `agente_tools.png` y sus dos continuaciones. |
 
 No mostrar tokens de sesión del Inspector, contraseñas ni otras credenciales. El enunciado no solicita grabaciones.
 

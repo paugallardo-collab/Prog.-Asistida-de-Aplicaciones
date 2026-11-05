@@ -20,7 +20,7 @@ Con el SDK 2.3.0, las tools traducen los `ValueError` previstos a `ToolError` pa
 
 ## Agente, conexión y reproducción
 
-Se utilizó **OpenAI Codex en VS Code** para implementar y verificar el proyecto. El cliente Python del SDK comprobó discovery de exactamente tres herramientas y llamadas reales por `stdio`; su traza está en [evidencias/mcp_stdio.json](evidencias/mcp_stdio.json). Ese cliente no usa un LLM. La conexión del MCP a una conversación nueva de Codex y su captura obligatoria siguen pendientes; no se afirma haberlas realizado.
+Se utilizó **OpenAI Codex en VS Code** para implementar y verificar el proyecto. El cliente Python del SDK comprobó discovery de exactamente tres herramientas y llamadas reales por `stdio`; su traza está en [evidencias/mcp_stdio.json](evidencias/mcp_stdio.json). Ese cliente no usa un LLM. Después se abrió la conversación nueva «Investiga casos con MCP Detective»: la conexión del agente se comprobó mediante la llamada Listar casos expandida en su interfaz, con los resultados de los tres casos, como muestran [agente_tools.png](evidencias/agente_tools.png) y sus continuaciones. Quedan pendientes las capturas de las consultas, el registro de alerta y el error de INC-999 para completar la evidencia de la Parte 3.
 
 Instalación, desde la raíz de esta entrega, con Python 3.11+ y Node.js:
 
