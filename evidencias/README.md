@@ -11,14 +11,15 @@
 - `inspector_pruebas.png`: primera captura de resultados del Inspector (D1); muestra INC-001, INC-002 e INC-003 con cantidades 2, 6 y 5.
 - `inspector_d2_1.png` a `inspector_d2_4.png`: capturas originales de D2 con los seis eventos de INC-002, de 02:10 a 02:15, usuario admin, IP de documentación 203.0.113.25 y LOGIN_FAILED.
 - `inspector_d3.png`: captura de D3 con `consultar_eventos`, argumento INC-999 y error explícito de caso inexistente.
+- `inspector_d4.png`: captura de D4 con INC-003, nivel alto, motivo y confirmación con estado registrada.
 
 ## Capturas pendientes
 
-Las capturas incluidas se conservaron sin modificar y corresponden a las comprobaciones solicitadas. D1, D2 y D3 ya tienen capturas; faltan los demás resultados del Inspector y la evidencia del agente antes de entregar:
+Las capturas incluidas se conservaron sin modificar y corresponden a las comprobaciones solicitadas. D1–D4 ya tienen capturas; faltan los demás resultados del Inspector y la evidencia del agente antes de entregar:
 
 | Archivo obligatorio | Qué debe verse |
 |---|---|
-| Resultados pendientes del Inspector | Completar D4–D7 y el registro tras reiniciar. D1 está en `inspector_pruebas.png`, D2 en `inspector_d2_1.png` a `inspector_d2_4.png` y D3 en `inspector_d3.png`. |
+| Resultados pendientes del Inspector | Completar D5–D7 y el registro tras reiniciar. D1 está en `inspector_pruebas.png`, D2 en `inspector_d2_1.png` a `inspector_d2_4.png`, D3 en `inspector_d3.png` y D4 en `inspector_d4.png`. |
 | `agente_tools.png` | Conversación nueva del agente mostrando llamadas MCP reales, argumentos y resultados. Incluir consultas de los tres casos, registro de INC-003 y error de INC-999; añadir imágenes si hace falta. |
 
 No mostrar tokens de sesión del Inspector, contraseñas ni otras credenciales. El enunciado no solicita grabaciones.
