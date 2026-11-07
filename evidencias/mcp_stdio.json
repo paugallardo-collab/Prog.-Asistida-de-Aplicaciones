@@ -1,0 +1,495 @@
+{
+  "cliente": "SDK MCP (sin LLM)",
+  "transporte": "stdio",
+  "llamadas": [
+    {
+      "prueba": "D1",
+      "tool": "listar_casos",
+      "argumentos": {},
+      "resultado": {
+        "_meta": {
+          "io.modelcontextprotocol/serverInfo": {
+            "name": "MCP Detective",
+            "version": ""
+          }
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"id\": \"INC-001\",\n  \"sistema\": \"portal_acceso\",\n  \"cantidad_eventos\": 2\n}",
+            "annotations": null,
+            "_meta": null
+          },
+          {
+            "type": "text",
+            "text": "{\n  \"id\": \"INC-002\",\n  \"sistema\": \"portal_acceso\",\n  \"cantidad_eventos\": 6\n}",
+            "annotations": null,
+            "_meta": null
+          },
+          {
+            "type": "text",
+            "text": "{\n  \"id\": \"INC-003\",\n  \"sistema\": \"panel_administracion\",\n  \"cantidad_eventos\": 5\n}",
+            "annotations": null,
+            "_meta": null
+          }
+        ],
+        "structuredContent": {
+          "result": [
+            {
+              "id": "INC-001",
+              "sistema": "portal_acceso",
+              "cantidad_eventos": 2
+            },
+            {
+              "id": "INC-002",
+              "sistema": "portal_acceso",
+              "cantidad_eventos": 6
+            },
+            {
+              "id": "INC-003",
+              "sistema": "panel_administracion",
+              "cantidad_eventos": 5
+            }
+          ]
+        },
+        "isError": false,
+        "resultType": "complete"
+      }
+    },
+    {
+      "prueba": "D2",
+      "tool": "consultar_eventos",
+      "argumentos": {
+        "caso_id": "INC-002"
+      },
+      "resultado": {
+        "_meta": {
+          "io.modelcontextprotocol/serverInfo": {
+            "name": "MCP Detective",
+            "version": ""
+          }
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"hora\": \"02:10\",\n  \"usuario\": \"admin\",\n  \"ip\": \"203.0.113.25\",\n  \"evento\": \"LOGIN_FAILED\"\n}",
+            "annotations": null,
+            "_meta": null
+          },
+          {
+            "type": "text",
+            "text": "{\n  \"hora\": \"02:11\",\n  \"usuario\": \"admin\",\n  \"ip\": \"203.0.113.25\",\n  \"evento\": \"LOGIN_FAILED\"\n}",
+            "annotations": null,
+            "_meta": null
+          },
+          {
+            "type": "text",
+            "text": "{\n  \"hora\": \"02:12\",\n  \"usuario\": \"admin\",\n  \"ip\": \"203.0.113.25\",\n  \"evento\": \"LOGIN_FAILED\"\n}",
+            "annotations": null,
+            "_meta": null
+          },
+          {
+            "type": "text",
+            "text": "{\n  \"hora\": \"02:13\",\n  \"usuario\": \"admin\",\n  \"ip\": \"203.0.113.25\",\n  \"evento\": \"LOGIN_FAILED\"\n}",
+            "annotations": null,
+            "_meta": null
+          },
+          {
+            "type": "text",
+            "text": "{\n  \"hora\": \"02:14\",\n  \"usuario\": \"admin\",\n  \"ip\": \"203.0.113.25\",\n  \"evento\": \"LOGIN_FAILED\"\n}",
+            "annotations": null,
+            "_meta": null
+          },
+          {
+            "type": "text",
+            "text": "{\n  \"hora\": \"02:15\",\n  \"usuario\": \"admin\",\n  \"ip\": \"203.0.113.25\",\n  \"evento\": \"LOGIN_FAILED\"\n}",
+            "annotations": null,
+            "_meta": null
+          }
+        ],
+        "structuredContent": {
+          "result": [
+            {
+              "hora": "02:10",
+              "usuario": "admin",
+              "ip": "203.0.113.25",
+              "evento": "LOGIN_FAILED"
+            },
+            {
+              "hora": "02:11",
+              "usuario": "admin",
+              "ip": "203.0.113.25",
+              "evento": "LOGIN_FAILED"
+            },
+            {
+              "hora": "02:12",
+              "usuario": "admin",
+              "ip": "203.0.113.25",
+              "evento": "LOGIN_FAILED"
+            },
+            {
+              "hora": "02:13",
+              "usuario": "admin",
+              "ip": "203.0.113.25",
+              "evento": "LOGIN_FAILED"
+            },
+            {
+              "hora": "02:14",
+              "usuario": "admin",
+              "ip": "203.0.113.25",
+              "evento": "LOGIN_FAILED"
+            },
+            {
+              "hora": "02:15",
+              "usuario": "admin",
+              "ip": "203.0.113.25",
+              "evento": "LOGIN_FAILED"
+            }
+          ]
+        },
+        "isError": false,
+        "resultType": "complete"
+      }
+    },
+    {
+      "prueba": "D3",
+      "tool": "consultar_eventos",
+      "argumentos": {
+        "caso_id": "INC-999"
+      },
+      "resultado": {
+        "_meta": {
+          "io.modelcontextprotocol/serverInfo": {
+            "name": "MCP Detective",
+            "version": ""
+          }
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "Error executing tool consultar_eventos: El caso 'INC-999' no existe.",
+            "annotations": null,
+            "_meta": null
+          }
+        ],
+        "structuredContent": null,
+        "isError": true,
+        "resultType": "complete"
+      }
+    },
+    {
+      "prueba": "D4",
+      "tool": "registrar_alerta",
+      "argumentos": {
+        "caso_id": "INC-003",
+        "nivel": "alto",
+        "motivo": "Cuatro fallos y un acceso exitoso desde la misma IP; requiere investigación"
+      },
+      "resultado": {
+        "_meta": {
+          "io.modelcontextprotocol/serverInfo": {
+            "name": "MCP Detective",
+            "version": ""
+          }
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"caso_id\": \"INC-003\",\n  \"nivel\": \"alto\",\n  \"motivo\": \"Cuatro fallos y un acceso exitoso desde la misma IP; requiere investigación\",\n  \"estado\": \"registrada\"\n}",
+            "annotations": null,
+            "_meta": null
+          }
+        ],
+        "structuredContent": null,
+        "isError": false,
+        "resultType": "complete"
+      }
+    },
+    {
+      "prueba": "D5",
+      "tool": "registrar_alerta",
+      "argumentos": {
+        "caso_id": "INC-003",
+        "nivel": "alto",
+        "motivo": "Cuatro fallos y un acceso exitoso desde la misma IP; requiere investigación"
+      },
+      "resultado": {
+        "_meta": {
+          "io.modelcontextprotocol/serverInfo": {
+            "name": "MCP Detective",
+            "version": ""
+          }
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "Error executing tool registrar_alerta: Alerta duplicada: ya existe una alerta para INC-003.",
+            "annotations": null,
+            "_meta": null
+          }
+        ],
+        "structuredContent": null,
+        "isError": true,
+        "resultType": "complete"
+      }
+    },
+    {
+      "prueba": "D6",
+      "tool": "registrar_alerta",
+      "argumentos": {
+        "caso_id": "INC-002",
+        "nivel": "critico",
+        "motivo": "Intentos repetidos"
+      },
+      "resultado": {
+        "_meta": {
+          "io.modelcontextprotocol/serverInfo": {
+            "name": "MCP Detective",
+            "version": ""
+          }
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "Error executing tool registrar_alerta: El nivel debe ser exclusivamente bajo, medio o alto.",
+            "annotations": null,
+            "_meta": null
+          }
+        ],
+        "structuredContent": null,
+        "isError": true,
+        "resultType": "complete"
+      }
+    },
+    {
+      "prueba": "D7",
+      "tool": "registrar_alerta",
+      "argumentos": {
+        "caso_id": "INC-002",
+        "nivel": "medio",
+        "motivo": "   "
+      },
+      "resultado": {
+        "_meta": {
+          "io.modelcontextprotocol/serverInfo": {
+            "name": "MCP Detective",
+            "version": ""
+          }
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "Error executing tool registrar_alerta: El motivo debe ser texto y no puede estar vacío ni en blanco.",
+            "annotations": null,
+            "_meta": null
+          }
+        ],
+        "structuredContent": null,
+        "isError": true,
+        "resultType": "complete"
+      }
+    },
+    {
+      "prueba": "extra-caso",
+      "tool": "registrar_alerta",
+      "argumentos": {
+        "caso_id": "INC-999",
+        "nivel": "alto",
+        "motivo": "Revisar"
+      },
+      "resultado": {
+        "_meta": {
+          "io.modelcontextprotocol/serverInfo": {
+            "name": "MCP Detective",
+            "version": ""
+          }
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "Error executing tool registrar_alerta: El caso 'INC-999' no existe.",
+            "annotations": null,
+            "_meta": null
+          }
+        ],
+        "structuredContent": null,
+        "isError": true,
+        "resultType": "complete"
+      }
+    },
+    {
+      "prueba": "extra-tipo",
+      "tool": "registrar_alerta",
+      "argumentos": {
+        "caso_id": "INC-002",
+        "nivel": "medio",
+        "motivo": 42
+      },
+      "resultado": {
+        "_meta": {
+          "io.modelcontextprotocol/serverInfo": {
+            "name": "MCP Detective",
+            "version": ""
+          }
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "Error executing tool registrar_alerta: 1 validation error for registrar_alertaArguments\nmotivo\n  Input should be a valid string [type=string_type, input_value=42, input_type=int]\n    For further information visit https://errors.pydantic.dev/2.14/v/string_type",
+            "annotations": null,
+            "_meta": null
+          }
+        ],
+        "structuredContent": null,
+        "isError": true,
+        "resultType": "complete"
+      }
+    },
+    {
+      "prueba": "2c-proceso-nuevo",
+      "tool": "registrar_alerta",
+      "argumentos": {
+        "caso_id": "INC-003",
+        "nivel": "alto",
+        "motivo": "Cuatro fallos y un acceso exitoso desde la misma IP; requiere investigación"
+      },
+      "resultado": {
+        "_meta": {
+          "io.modelcontextprotocol/serverInfo": {
+            "name": "MCP Detective",
+            "version": ""
+          }
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"caso_id\": \"INC-003\",\n  \"nivel\": \"alto\",\n  \"motivo\": \"Cuatro fallos y un acceso exitoso desde la misma IP; requiere investigación\",\n  \"estado\": \"registrada\"\n}",
+            "annotations": null,
+            "_meta": null
+          }
+        ],
+        "structuredContent": null,
+        "isError": false,
+        "resultType": "complete"
+      }
+    }
+  ],
+  "discovery": {
+    "_meta": {
+      "io.modelcontextprotocol/serverInfo": {
+        "name": "MCP Detective",
+        "version": ""
+      }
+    },
+    "ttlMs": 0,
+    "cacheScope": "private",
+    "nextCursor": null,
+    "tools": [
+      {
+        "name": "listar_casos",
+        "title": null,
+        "description": "Lista el id, sistema y cantidad de eventos de cada caso, sin conclusiones.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {},
+          "title": "listar_casosArguments"
+        },
+        "execution": null,
+        "outputSchema": {
+          "properties": {
+            "result": {
+              "items": {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              "title": "Result",
+              "type": "array"
+            }
+          },
+          "required": [
+            "result"
+          ],
+          "title": "listar_casosOutput",
+          "type": "object"
+        },
+        "icons": null,
+        "annotations": null,
+        "_meta": null
+      },
+      {
+        "name": "consultar_eventos",
+        "title": null,
+        "description": "Consulta los eventos exactos del caso; rechaza con error si no existe.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "caso_id": {
+              "title": "Caso Id",
+              "type": "string"
+            }
+          },
+          "required": [
+            "caso_id"
+          ],
+          "title": "consultar_eventosArguments"
+        },
+        "execution": null,
+        "outputSchema": {
+          "properties": {
+            "result": {
+              "items": {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              "title": "Result",
+              "type": "array"
+            }
+          },
+          "required": [
+            "result"
+          ],
+          "title": "consultar_eventosOutput",
+          "type": "object"
+        },
+        "icons": null,
+        "annotations": null,
+        "_meta": null
+      },
+      {
+        "name": "registrar_alerta",
+        "title": null,
+        "description": "Registra en memoria una alerta por caso: bajo/medio/alto y motivo no blanco.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "caso_id": {
+              "title": "Caso Id",
+              "type": "string"
+            },
+            "nivel": {
+              "title": "Nivel",
+              "type": "string"
+            },
+            "motivo": {
+              "title": "Motivo",
+              "type": "string"
+            }
+          },
+          "required": [
+            "caso_id",
+            "nivel",
+            "motivo"
+          ],
+          "title": "registrar_alertaArguments"
+        },
+        "execution": null,
+        "outputSchema": null,
+        "icons": null,
+        "annotations": null,
+        "_meta": null
+      }
+    ],
+    "resultType": "complete"
+  },
+  "estado": "D1–D7, validación de tipos y reinicio: correctos"
+}
