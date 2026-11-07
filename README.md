@@ -48,16 +48,22 @@ Para 2c, después de D5 terminar y volver a iniciar el proceso del servidor desd
 
 ## Conectar el agente
 
+La investigación final se realizó con Claude Code en una conversación nueva de VS Code. Con Claude Code instalado, desde la raíz de la entrega:
+
 ```powershell
-.\.venv\Scripts\python.exe configurar_codex.py
+$pythonMcp = (Resolve-Path .venv/Scripts/python.exe).Path
+$servidorMcp = (Resolve-Path mcp-detective/server.py).Path
+claude mcp add --transport stdio --scope project mcp_detective $pythonMcp $servidorMcp
 ```
 
-El script genera `.codex/config.toml` del proyecto con rutas absolutas. Conserva las demás entradas y se detiene si `mcp_detective` ya existe. La configuración es local y está excluida de Git. Abrir una conversación nueva de Codex en esta carpeta; comprobar `/mcp` y discovery. Si el host requiere marcar el proyecto como de confianza, hacerlo en su interfaz.
+Abrir una conversación nueva, aprobar el servidor del proyecto cuando se solicite y comprobar `/mcp`. Claude inicia el servidor por stdio con el Python del entorno. La configuración local `.mcp.json` está excluida de Git.
 
-Durante esa investigación no se debe abrir ni buscar `casos.json`, tampoco leer las pruebas o la reflexión para obtener evidencia. Usar exclusivamente `listar_casos` y `consultar_eventos` para conocer los eventos. Los prompts están preparados en [evidencias/README.md](evidencias/README.md).
+También se incluye `configurar_codex.py` para generar `.codex/config.toml` con rutas absolutas y conectar Codex. Durante la investigación, obtener los eventos exclusivamente con `listar_casos` y `consultar_eventos`; no abrir `casos.json`, pruebas o reflexiones ni usar búsquedas o la terminal para obtener eventos.
 
-## Entrega
+## Evidencias y entrega
 
-[respuestas.md](respuestas.md) contiene la reflexión. [evidencias/README.md](evidencias/README.md) distingue las verificaciones y capturas realizadas de las evidencias pendientes y explica cómo completarlas. No se exige una grabación de pantalla en el enunciado.
+[respuestas.md](respuestas.md) contiene las tres respuestas y las instrucciones de reproducción. [evidencias/README.md](evidencias/README.md) relaciona las comprobaciones del enunciado con sus capturas originales: código, discovery, D1–D7, pytest, reinicio y llamadas reales del agente. La verificación del protocolo con un cliente sin LLM se conserva por separado en `evidencias/mcp_stdio.json`.
 
-La rama de entrega es `deber5`, con pull request hacia `main`. En el aula virtual se entrega únicamente el enlace al PR. Completar las capturas y la sesión nueva antes de enviarlo al aula.
+Rama `deber5`, con pull request hacia `main` en un repositorio público. En el aula virtual se entrega únicamente este enlace:
+
+[Pull request del Deber 5](https://github.com/paugallardo-collab/Prog.-Asistida-de-Aplicaciones/pull/1)

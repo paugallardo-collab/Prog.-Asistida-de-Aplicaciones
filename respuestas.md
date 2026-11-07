@@ -2,41 +2,42 @@
 
 ## 1. Arquitectura
 
-El LLM decide qué herramienta necesita y propone sus argumentos. El host (Codex o Claude Code) organiza la conversación, ofrece las herramientas al modelo y coordina su ejecución. El cliente MCP transporta las solicitudes y respuestas entre el host y el servidor. El servidor MCP ejecuta las funciones de Python: lee los casos, valida los argumentos y conserva las alertas en memoria. Quien ejecuta Python es el proceso local del servidor, iniciado por el host; el modelo interpreta sus resultados.
+El LLM decide qué herramienta necesita, propone sus argumentos e interpreta lo que recibe. El host organiza la conversación y coordina las llamadas; en este trabajo se usaron Codex y Claude Code en VS Code. El cliente MCP transporta las solicitudes y respuestas por stdio. El servidor MCP es el proceso local que ejecuta realmente Python: recupera los casos, valida las entradas y guarda las alertas en memoria.
 
-`listar_casos` y `consultar_eventos` solo leen. `registrar_alerta` cambia el estado de la instancia. Las tres herramientas se registran mediante `@mcp.tool()` en `mcp-detective/server.py`.
+`listar_casos` y `consultar_eventos` solo leen. `registrar_alerta` cambia el estado. Las tres se registran con `@mcp.tool()` en `server.py`.
 
 ## 2. Evidencia y límites
 
-El patrón de INC-003 merece investigación: el conjunto de datos del ejercicio muestra cuatro accesos fallidos de `admin`, de 03:00 a 03:03, y un acceso exitoso a las 03:04 desde la misma IP de documentación, `192.0.2.50`, en el panel de administración. Justifica una prioridad alta de revisión por la cuenta y el sistema involucrados. No demuestra una intrusión: los registros no identifican a la persona detrás de la cuenta ni explican si estaba autorizada. Un usuario legítimo también puede equivocarse antes de iniciar sesión. Haría falta corroborar el contexto y la actividad posterior.
+INC-003 merece investigación porque los eventos muestran cuatro fallos de `admin`, de 03:00 a 03:03, seguidos de un acceso exitoso a las 03:04 desde la misma IP de documentación, 192.0.2.50, en el panel de administración. Se registró una alerta de nivel alto por el patrón y por la cuenta administrativa involucrada.
 
-Esta explicación se basa en el enunciado y sirve de reflexión. La investigación de la Parte 3 debe repetirse en una conversación nueva obteniendo los eventos únicamente mediante MCP; no se presenta esta reflexión como prueba de esa investigación.
+Eso no demuestra una intrusión: los logs no dicen quién estaba usando la cuenta ni si tenía autorización. Podría ser una persona legítima que corrigió sus credenciales. Haría falta verificar el contexto con el dueño de la cuenta y revisar la actividad posterior. El motivo registrado reconoce expresamente este límite.
 
 ## 3. Validación y seguridad
 
-El servidor rechaza los casos inexistentes, los niveles distintos de `bajo`, `medio` o `alto`, los motivos que no son texto o quedan en blanco y las alertas duplicadas. La lógica lanza `ValueError` antes de guardar. No basta con confiar en el LLM: puede equivocarse en los argumentos, y otro cliente puede enviar datos inválidos. El servidor garantiza el contrato de forma determinista, incluida una sola alerta por caso durante la vida del proceso, algo que una respuesta del modelo por sí sola no garantiza.
+El servidor rechaza INC-999, los niveles distintos de bajo/medio/alto, los motivos que no son texto o quedan en blanco y las alertas duplicadas. La lógica lanza `ValueError` antes de guardar. En SDK 2.3.0, las tools traducen esos errores previstos a `ToolError` para que MCP conserve un mensaje comprensible y marque la llamada como fallida.
 
-Con el SDK 2.3.0, las tools traducen los `ValueError` previstos a `ToolError` para que MCP conserve el mensaje comprensible y marque `is_error=True`. Sin esta adaptación, el SDK oculta el detalle como error inesperado. No se devuelven confirmaciones falsas ni listas vacías por un caso desconocido. Las alertas no se escriben en disco; un proceso nuevo empieza sin ellas.
+No es suficiente confiar en el modelo: puede generar argumentos equivocados y otro cliente puede mandar datos inválidos. El servidor garantiza de forma determinista las validaciones y una única alerta por caso durante la vida del proceso. Una respuesta del LLM por sí sola no garantiza esas restricciones. Al reiniciar, las alertas desaparecen porque no se escriben en disco.
 
-## Agente, conexión y reproducción
+## Agentes y comprobación de conexión
 
-Se utilizó **OpenAI Codex en VS Code** para implementar y verificar el proyecto. El cliente Python del SDK comprobó discovery de exactamente tres herramientas y llamadas reales por `stdio`; su traza está en [evidencias/mcp_stdio.json](evidencias/mcp_stdio.json). Ese cliente no usa un LLM. En la conversación nueva «Investiga casos con MCP Detective», Codex ejecutó Listar casos, como muestran [agente_tools.png](evidencias/agente_tools.png) y sus continuaciones. La investigación se continuó en una sesión nueva de **Claude Code en VS Code**, con el mismo servidor configurado por stdio en `.mcp.json`. Se comprobó la conexión mediante `/mcp` y llamadas reales: [agente_error_999.png](evidencias/agente_error_999.png) muestra nombre, argumento y error de INC-999, sin eventos inventados. [agente_alerta_1.png](evidencias/agente_alerta_1.png) muestra la llamada de registro para INC-003 y [agente_alerta_2.png](evidencias/agente_alerta_2.png) muestra su resultado original con estado registrada. Falta incorporar las capturas de las consultas de los tres casos para completar la evidencia visual.
+Se usó **OpenAI Codex en VS Code** para implementar y probar el proyecto. La investigación final se realizó en una **conversación nueva de Claude Code en VS Code**, «Casos y eventos de mcp_detective». Se comprobó la conexión en `/mcp` y mediante las llamadas reales del chat: consultas de los tres casos, registro de INC-003 y consulta de INC-999. La evidencia de eventos se obtuvo con las herramientas MCP, sin abrir `casos.json` ni usar la terminal para investigar.
 
-Instalación, desde la raíz de esta entrega, con Python 3.11+ y Node.js:
+[agente_tools.png](evidencias/agente_tools.png) y sus continuaciones muestran el listado inicial desde otra conversación nueva de Codex. [agente_consultas.png](evidencias/agente_consultas.png) muestra las tres consultas desde Claude Code. [agente_alerta_1.png](evidencias/agente_alerta_1.png) y [agente_alerta_2.png](evidencias/agente_alerta_2.png) muestran el registro y su confirmación. [agente_error_999.png](evidencias/agente_error_999.png) muestra el error real sin eventos inventados. El índice completo está en [evidencias/README.md](evidencias/README.md).
+
+## Instalación y ejecución
+
+Requisitos: Python 3.11+, Node.js con npx y Claude Code para la investigación. Desde la raíz de la entrega, en PowerShell:
 
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 .\.venv\Scripts\python.exe -m pytest mcp-detective -q
-.\.venv\Scripts\python.exe mcp-detective\verificar_mcp.py
 .\.venv\Scripts\mcp.exe dev mcp-detective/server.py
 ```
 
-Para conectar Codex, ejecutar `.\.venv\Scripts\python.exe configurar_codex.py` y abrir una conversación nueva en esta carpeta. La configuración local contiene las rutas absolutas del Python activo y de `server.py`, sin credenciales. El host debe cargar la configuración del proyecto de confianza. Comprobar `/mcp` y pedir discovery; luego verificar las invocaciones con nombre, argumentos y resultado. Los prompts y la lista exacta de capturas están en [evidencias/README.md](evidencias/README.md).
+En el Inspector, usar STDIO, la ruta absoluta de `.venv/Scripts/python.exe` como Command y la ruta absoluta de `mcp-detective/server.py` como Arguments. Las 25 pruebas pasan y D1–D7 y el reinicio se comprobaron en el Inspector.
 
-Referencias consultadas: [SDK MCP v2](https://py.sdk.modelcontextprotocol.io/), [errores del SDK](https://py.sdk.modelcontextprotocol.io/servers/handling-errors/) y [configuración MCP de Codex](https://learn.chatgpt.com/docs/extend/mcp?surface=cli).
-
-Para conectar **Claude Code**, desde la carpeta de la entrega:
+Para conectar Claude Code desde esta carpeta:
 
 ```powershell
 $pythonMcp = (Resolve-Path .venv/Scripts/python.exe).Path
@@ -44,4 +45,6 @@ $servidorMcp = (Resolve-Path mcp-detective/server.py).Path
 claude mcp add --transport stdio --scope project mcp_detective $pythonMcp $servidorMcp
 ```
 
-Abrir una conversación nueva de Claude Code, aprobar el servidor del proyecto cuando lo solicite y verificar `/mcp`: debe mostrar `mcp_detective` conectado. Obtener la evidencia únicamente mediante las herramientas MCP. [Documentación de Claude Code](https://code.claude.com/docs/en/mcp).
+Abrir una conversación nueva, aprobar el servidor del proyecto cuando lo solicite y comprobar que `/mcp` muestre `mcp_detective` conectado. La configuración local `.mcp.json` no lleva tokens ni contraseñas. Para Codex también se incluye `configurar_codex.py`, que genera su configuración local con rutas absolutas.
+
+Referencias técnicas: [SDK MCP v2](https://py.sdk.modelcontextprotocol.io/), [errores del SDK](https://py.sdk.modelcontextprotocol.io/servers/handling-errors/) y [MCP en Claude Code](https://code.claude.com/docs/en/mcp).

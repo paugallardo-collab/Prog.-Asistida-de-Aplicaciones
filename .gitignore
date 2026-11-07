@@ -58,3 +58,4 @@ __pycache__/
 .env.*
 .codex/
 .local/
+.mcp.json
