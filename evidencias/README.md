@@ -17,6 +17,7 @@
 - `inspector_d7.png`: captura de D7 con INC-002, nivel medio y motivo en blanco; el servidor rechaza el motivo con un mensaje explícito.
 - `inspector_reinicio.png`: captura de la Parte 2c, después de detener y volver a iniciar el servidor siguiendo las instrucciones; INC-003 vuelve a aceptar el mismo registro válido, con estado registrada.
 - `agente_tools.png`, `agente_listar_2.png` y `agente_listar_3.png`: capturas originales de la conversación nueva de Codex «Investiga casos con MCP Detective», con la llamada real Listar casos expandida y los resultados de los tres casos. No se incluyó la captura que repetía el resultado en formato JSON.
+- `agente_error_999.png`: llamada real de Claude Code a `consultar_eventos` con `{"caso_id":"INC-999"}` y error del servidor visible en OUT; el agente comunica el error sin inventar eventos.
 
 ## Capturas pendientes
 
@@ -24,7 +25,7 @@ Las capturas incluidas se conservaron sin modificar y corresponden a las comprob
 
 | Archivo obligatorio | Qué debe verse |
 |---|---|
-| Llamadas pendientes del agente | Capturas de `consultar_eventos` para los tres casos, `registrar_alerta` para INC-003 y `consultar_eventos` para INC-999, con argumentos y resultados visibles. El listado ya está en `agente_tools.png` y sus dos continuaciones. |
+| Llamadas pendientes del agente | Capturas de `consultar_eventos` para los tres casos y `registrar_alerta` para INC-003, con argumentos y resultados visibles. El listado ya está en `agente_tools.png` y sus dos continuaciones; el error de INC-999 está en `agente_error_999.png`. |
 
 No mostrar tokens de sesión del Inspector, contraseñas ni otras credenciales. El enunciado no solicita grabaciones.
 
