@@ -1,0 +1,2 @@
+# El CSV original debe conservarse byte a byte (sin conversion LF/CRLF).
+logs_sinteticos.csv -text
