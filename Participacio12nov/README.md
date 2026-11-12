@@ -73,3 +73,25 @@ anterior del script y de esos dos párrafos de la referencia. Ejecuté el script
 sobre `logs_sinteticos.csv` y da **las mismas alertas, las mismas filas y los mismos
 descartes**: la única diferencia son dos campos nuevos, vacíos
 (`subsequent_success_same_timestamp_rows`). También lo probé con un CSV de casos límite.
+
+**Segunda revisión de Codex** (sobre la rama ya confirmada). Señaló 7 puntos; los
+comprobé todos y los corregí:
+
+4. R1 excluía un éxito posterior si estaba en una fila anterior del archivo (CSV
+   desordenado). Ahora usa el orden estable `(timestamp, fila)`.
+5. Una fila con timestamp inválido quedaba fuera de R3/R4. Ahora R3 y R4 se evalúan
+   siempre y se declara que el contexto temporal no es evaluable.
+6. Mezclar fechas con y sin zona horaria hacía fallar el script (`TypeError`). Ahora las
+   filas sin zona se excluyen de las ventanas y se informa la limitación.
+7. El contexto de R4 podía incluir filas posteriores del mismo minuto. Ahora solo incluye
+   las previas en el orden estable y marca los empates.
+8. La redacción solo se aplicaba a `detail`. Ahora cubre toda la salida.
+9. `comparacion.md` decía que la sesión con skill no usó "interno/externo", pero en una
+   tabla escribió "IPs internas". Corregí la interpretación; la respuesta registrada no se
+   tocó.
+10. `evidencias/README.md` afirmaba un aislamiento de red que la configuración no
+    demuestra. Lo cambié por lo comprobado: 0 comandos de red en las 6 trazas.
+
+Con el script corregido, `logs_sinteticos.csv` sigue dando las mismas alertas, filas y
+descartes; solo aparecen 3 campos nuevos vacíos. Probé además cada defecto con un CSV que
+lo reproduce.

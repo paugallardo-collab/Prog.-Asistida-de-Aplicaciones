@@ -40,6 +40,17 @@ def redact(text: str) -> str:
     return SECRET_RE.sub(_sub, text)
 
 
+def redact_obj(obj):
+    """Redacta recursivamente todas las cadenas de la salida (no solo `detail`)."""
+    if isinstance(obj, str):
+        return redact(obj)
+    if isinstance(obj, list):
+        return [redact_obj(x) for x in obj]
+    if isinstance(obj, dict):
+        return {k: redact_obj(v) for k, v in obj.items()}
+    return obj
+
+
 def load(path: str, mapping: dict[str, str]):
     with open(path, newline="", encoding="utf-8-sig") as fh:
         reader = csv.DictReader(fh)
@@ -61,6 +72,15 @@ def load(path: str, mapping: dict[str, str]):
                 problems.append(f"fila {start_line}: timestamp no interpretable")
             rows.append(row)
             start_line = reader.line_num + 1
+    # Fechas con y sin zona horaria no son comparables: no se asume ninguna zona.
+    aware = [r for r in rows if r["t"] is not None and r["t"].tzinfo is not None]
+    naive = [r for r in rows if r["t"] is not None and r["t"].tzinfo is None]
+    if aware and naive:
+        for r in naive:
+            r["t"] = None
+        problems.append("zonas horarias mezcladas: las filas sin zona ("
+                        + ", ".join(str(r["row"]) for r in naive)
+                        + ") no se usan en ventanas ni en antes/después")
     return header, missing, rows, problems
 
 
@@ -79,6 +99,7 @@ def best_window(events, key=None):
 def analyze(rows):
     timed = [r for r in rows if r["t"] is not None]
     ordered = sorted(timed, key=lambda r: (r["t"], r["row"]))  # orden estable
+    untimed = [r for r in rows if r["t"] is None]  # R3/R4 se evalúan igualmente
     fails = [r for r in ordered if r["event"] == "login" and r["result"] == "failed"]
     out = {"alerts": [], "context": [], "false_positives": [], "limitations": []}
 
@@ -102,7 +123,9 @@ def analyze(rows):
                 r for r in ordered
                 if r["event"] == "login" and r["result"] == "success"
                 and r["ip"] == ip and r["user"] == user
-                and last["t"] <= r["t"] <= last["t"] + WINDOW and r["row"] > last["row"]
+                # posterior en el orden estable (t, fila) y dentro de los 5 min siguientes
+                and (r["t"], r["row"]) > (last["t"], last["row"])
+                and r["t"] <= last["t"] + WINDOW
             ]
             succ = [r["row"] for r in succ_rows]
             distinct = len([n for n in rows_w if n not in dup_rows])
@@ -146,7 +169,7 @@ def analyze(rows):
             })
 
     # R3 — token expuesto / R4 — cambio de rol no aprobado / contexto
-    for r in ordered:
+    for r in ordered + untimed:
         detail = r["detail"]
         if "token=" in detail.lower():
             out["alerts"].append({
@@ -164,15 +187,23 @@ def analyze(rows):
                                    "(no cuenta para R4)", "detail_redacted": redact(detail)})
         if (r["event"] == "role_change" and r["result"] == "success"
                 and "approved=false" in detail):  # subcadena literal, como fija R4
-            prior = [p["row"] for p in ordered
-                     if p["row"] != r["row"] and (p["user"] == r["user"] or p["ip"] == r["ip"])
-                     and r["t"] - WINDOW <= p["t"] <= r["t"]]
-            out["alerts"].append({
+            alert = {
                 "rule": "R4 escalada no autorizada según el registro", "severity": "alta",
                 "ip": r["ip"], "user": r["user"], "start": r["timestamp"],
                 "rows": [r["row"]], "detail_redacted": redact(detail),
-                "context_rows_prev_5min": prior,
-            })
+            }
+            if r["t"] is None:
+                alert["context_rows_prev_5min"] = "no evaluable (timestamp no interpretable)"
+            else:
+                # Previos en el orden estable (t, fila), dentro de los 5 min anteriores.
+                prior = [p for p in ordered
+                         if (p["user"] == r["user"] or p["ip"] == r["ip"])
+                         and (p["t"], p["row"]) < (r["t"], r["row"])
+                         and p["t"] >= r["t"] - WINDOW]
+                alert["context_rows_prev_5min"] = [p["row"] for p in prior]
+                alert["context_same_timestamp_rows"] = [p["row"] for p in prior
+                                                        if p["t"] == r["t"]]
+            out["alerts"].append(alert)
         if r["event"] not in ("login", "role_change") and "token=" not in detail.lower():
             if r["event"] != "healthcheck":
                 out["context"].append({"row": r["row"], "note": f"evento no cubierto por reglas: "
@@ -223,12 +254,13 @@ def main() -> int:
 
     header, missing, rows, problems = load(args.csv, mapping)
     if missing:
-        print(f"Columnas no encontradas: {', '.join(missing)}. Encabezado: {header}. "
-              "Usa --col nombre=columna o analiza manualmente.", file=sys.stderr)
+        print(redact(f"Columnas no encontradas: {', '.join(missing)}. Encabezado: {header}. "
+                     "Usa --col nombre=columna o analiza manualmente."), file=sys.stderr)
         return 2
     result = analyze(rows)
     result["limitations"] += problems
     result["summary"]["header"] = header
+    result = redact_obj(result)  # ningún campo de la salida muestra secretos
 
     if args.json:
         print(json.dumps(result, ensure_ascii=False, indent=2))

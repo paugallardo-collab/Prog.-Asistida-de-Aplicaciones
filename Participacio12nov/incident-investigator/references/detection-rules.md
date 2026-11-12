@@ -15,6 +15,7 @@ justificadas**, no conclusiones forenses.
 | **Misma IP / mismo usuario** | Igualdad exacta del texto de `ip` y de `user`. |
 | **Filas idénticas** | Si varias filas tienen todos los campos iguales, **no** se eliminan ni se fusionan: no hay forma inequívoca de saber si son eventos distintos dentro del mismo minuto o duplicados de registro. Se cuentan tal como aparecen y se informa, como limitación, cuántos eventos quedarían si fueran duplicados y si la alerta seguiría superando el umbral. No inventes una regla de deduplicación. |
 | **Resolución temporal** | Si los timestamps tienen resolución de minuto, el orden dentro del mismo minuto es incierto; dilo cuando afecte a "antes/después". |
+| **Timestamps inválidos o mezclados** | Una fila sin timestamp interpretable, o sin zona horaria cuando las demás la tienen, no entra en ventanas ni en "antes/después" (R1, R2 y contexto de R4). **R3 y R4 se evalúan igualmente**, porque no dependen del tiempo, y se declara que su contexto temporal no es evaluable. No se asume ninguna zona horaria. |
 | **Secretos** | Nunca se imprime el valor; se escribe `[REDACTED]`. |
 | **Lenguaje** | "probable", "según el registro", "compatible con". Nunca culpabilidad. |
 
@@ -27,7 +28,9 @@ justificadas**, no conclusiones forenses.
   Alerta si el máximo es ≥ 6.
 - **Anotación aparte (no cambia la condición):** comprueba si existe un `login`/`success`
   de la **misma `ip`** al **mismo `user`** en los **5 minutos siguientes al último fallo**
-  de la ventana (`t_último ≤ t ≤ t_último + 5 min` y fila posterior). Si existe, cítalo
+  de la ventana: posterior en el orden estable `(timestamp, fila)` y con
+  `t ≤ t_último + 5 min` (si el CSV está desordenado, puede estar en una fila anterior del
+  archivo). Si existe, cítalo
   como "éxito posterior" en una fila separada de la tabla o en la columna de evidencia.
   Un éxito posterior **no prueba** que la cuenta esté comprometida; es compatible con ello
   y también con que el titular recordara la contraseña.

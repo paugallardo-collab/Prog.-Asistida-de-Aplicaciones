@@ -54,7 +54,11 @@ claude -p "<prompt exacto>" \
 ```
 
 - `--tools` deja **solo** herramientas locales: sin `WebFetch` ni `WebSearch`, y
-  `--strict-mcp-config` sin servidores MCP. Así ninguna sesión tenía acceso a la red.
+  `--strict-mcp-config` sin servidores MCP. Esto **no es un aislamiento de red
+  demostrado**: `Bash` seguía disponible, limitado a los prefijos de la lista, entre ellos
+  `python`. Lo que sí está comprobado es que **ninguna de las 6 trazas contiene un comando
+  de red**: busqué `curl`, `wget`, `http`, `socket`, `urllib`, `requests`, `nslookup`,
+  `ping` y `whois` en todas las llamadas `Bash` y hubo 0 coincidencias.
 - Fue **la misma configuración** en las condiciones con y sin skill. Lo único que cambia
   es la carpeta.
 - Algunas llamadas `Bash` con `cd ... && ...` quedaron **denegadas** por el sistema de
